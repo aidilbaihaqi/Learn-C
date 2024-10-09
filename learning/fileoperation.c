@@ -6,6 +6,7 @@
 int main(int argc, char** argv)
 {
   printf("Operation File\n");
+  
   FILE *fptr;
   fptr = fopen(argv[1], "w"); 
 
@@ -16,5 +17,6 @@ int main(int argc, char** argv)
     exit(1);
   }
   fclose(fptr);
+
   return 0;
 }
