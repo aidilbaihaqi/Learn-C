@@ -22,7 +22,7 @@ int readData(const char *filename, Data **data) {
 
     // ngitung valid lines
     while (fgets(buffer, sizeof(buffer), file)) {
-        // check kalau baris tidak baris baru atau baris kosong
+        // check jika baris bukan baris baru atau baris kosong
         if (strlen(buffer) > 1) {
             count++;
         }
