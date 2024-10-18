@@ -3,11 +3,11 @@
 #include <string.h>
 #include <time.h>
 
-// delimiter data pada setiap file menggunakan spasi (' ')
+// delimiter data pada setiap file menggunakan koma (,)
 
 typedef struct {
-    char NIM[20]; // pakai tipe data string karena ga di kalkulasi
-    char NAMA[100]; // sama juga kyk yg diatas
+    char NIM[20]; // pakai tipe data string karena tidak di kalkulasi
+    char NAMA[100];
 } Data;
 
 int readData(const char *filename, Data **data) {
@@ -19,14 +19,25 @@ int readData(const char *filename, Data **data) {
 
     int count = 0;
     char buffer[150];
+
+    // ngitung valid lines
     while (fgets(buffer, sizeof(buffer), file)) {
-        count++;
+        // check kalau baris tidak baris baru atau baris kosong
+        if (strlen(buffer) > 1) {
+            count++;
+        }
     }
     rewind(file);
 
     *data = (Data *)malloc(count * sizeof(Data));
-    for (int i = 0; i < count; i++) {
-        fscanf(file, "%s %[^\n]", (*data)[i].NIM, (*data)[i].NAMA);
+    int index = 0;
+
+    // Read data, hiraukan baris baru atau baris kosong
+    while (fgets(buffer, sizeof(buffer), file)) {
+        if (strlen(buffer) > 1) {
+            sscanf(buffer, "%[^,],%[^\n]", (*data)[index].NIM, (*data)[index].NAMA);
+            index++;
+        }
     }
 
     fclose(file);
