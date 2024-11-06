@@ -12,8 +12,12 @@ int main() {
   // Apabila ditemukan operator aritmetik atau tanda kurung (maka dimasukkan ke stack (push))
   // Apabila ditemukan tanda kurung ) maka seluruh stack dikeluarkan dengan pop sampai menemukan kurung buka baru
 
+  // Cara konversi infix to prefix
+  // tulis terbalik, dan lakukan sama seperti postfix, lalu balikin lagi kembali
+
   // Infix = a + b * c + (d * e + f) * g (manusia mengerjakan dengan cara ini)
   // Postfix = a b c * + d e * f + g * + (komputer mengerjakan dengan cara ini)
-
+  // Prefix =  + + a * b c * + * d e f g (komputer mengerjakan dengan cara ini)
+ 
   return 0;
 }
