@@ -67,10 +67,10 @@ void formatPrice(int price, char* buffer) {
 void displayMenu() {
     printf("\nMenu Masakan\n");
     printf("[\033[1;36m\033[1m1\033[0m] Input Data Baru\n");
-    printf("[2] Import Data Baru\n");
-    printf("[3] Browse Data\n");
-    printf("[4] Export ke CSV\n");
-    printf("[9] Berhenti Program\n");
+    printf("[\033[1;36m\033[1m2\033[0m] Import Data Baru\n");
+    printf("[\033[1;36m\033[1m3\033[0m] Browse Data\n");
+    printf("[\033[1;36m\033[1m4\033[0m] Export ke CSV\n");
+    printf("[\033[1;36m\033[1m9\033[0m] Berhenti Program\n");
     printf("Pilihan anda : ");
 }
 
