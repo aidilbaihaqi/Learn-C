@@ -111,6 +111,7 @@ int main() {
 
     switch(choice) {
       case 1:
+        tambahData(&head);
         break;
       case 2:
         break;
