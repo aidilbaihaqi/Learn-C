@@ -101,6 +101,44 @@ void tambahData(Node **head) {
   }while(lanjut == 'Y' || lanjut == 'y');
 }
 
+void browseData(Node *head) {
+  if(!head) {
+    printf("Data belum ada\n");
+    return;
+  }
+
+  Node *now = head;
+  int total = 0, posisi = 1;
+  Node *temp = head;
+  while(temp) {
+    total++;
+    temp = temp->next;
+  } 
+
+  char action;
+  do{
+    printf("Data ke %d dari %d\n", posisi, total);
+    printf("Nama masakan : %s\n", now->makanan.nama);
+    printf("Harga jual : ");
+    formatHarga(now->makanan.harga);
+    printf("\nTanggal Produksi : %s\n", now->makanan.tglProduksi);
+    printf("Pilihan P / N / Q : ");
+    scanf(" %c", &action);
+
+    if(action == 'P' || action == 'p') {
+      now = now->prev ? now->prev : head;
+      posisi = now->prev ? posisi - 1 : total;
+    }else if(action == 'N' || action == 'n') {
+      now = now->next ? now->next : head;
+      posisi = now->next ? posisi + 1 : 1;
+    }else if(action == 'Q' || action == 'q') {
+      break;
+    }else {
+      printf("pilihan ga boleh selain dari P/N/Q\n");
+    }
+  }while(1);
+}
+
 int main() {
   Node *head = NULL;
   int choice;
@@ -116,6 +154,7 @@ int main() {
       case 2:
         break;
       case 3:
+        browseData(&head);
         break;
       case 4:
         break;
