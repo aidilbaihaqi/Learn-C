@@ -1,33 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
+#include <ctype.h>
 #include "data.h"
-// include import
-// include export
+// import 
+// export
 
-// Fungsi format harga
-void priceFormat(int harga) {
+void formatHarga(int harga) {
   char str[20];
-  sprintf(str,"%d",harga);
+  sprintf(str, "%d", harga);
   int len = strlen(str);
   int count = 0;
   char result[30];
   int j = 0;
 
-
-  for(int i = len - 1; i >= 0; i--) {
+  for (int i = len - 1; i>=0 ; i--) {
     result[j++] = str[i];
     count++;
-    if(count == 3 && i != 0) {
-      result[j++] = ".";
+    if(count == 3 && i!=0) {
+      result[j++] = '.';
       count = 0;
     }
   }
 
-  result[j] = "\n";
+  result[j] = '\0';
 
-  for(int i = 0; i < j / 2; i++) {
+  for(int i=0; i < j / 2; i++) {
     char temp = result[i];
     result[i] = result[j - i - 1];
     result[j - i - 1] = temp;
@@ -36,7 +34,6 @@ void priceFormat(int harga) {
   printf("Rp. %s\n", result);
 }
 
-// Fungsi view menu
 void menu() {
   printf("\nMenu Masakan\n");
   printf("[\033[34m1\033[0m] Input Data Baru\n");
@@ -47,11 +44,68 @@ void menu() {
   printf("Pilihan anda: ");
 }
 
+int validasiTgl(const char *tgl){
+  if(strlen(tgl) != 8 || tgl[2] != '-' || tgl[5] != '-')
+    return 0;
+  
+  int hari = atoi(tgl);
+  int bulan = atoi(&tgl[3]);
+  int tahun = atoi(&tgl[6]);
+  int hariDalamBulan[] = {31,28,31,30,31,30,31,31,30,31,30,31};
+
+  if(tahun % 4 == 0 && (tahun % 100 != 0 || tahun % 400 == 0 )) {
+    hariDalamBulan[1] = 29;
+  }
+  if(bulan<1 || bulan>12 || hari<1 || hari>hariDalamBulan[bulan - 1]) {
+    return 0;
+  }
+
+  return 1;
+}
+
+void tambahData(Node **head) {
+  char lanjut;
+  do{
+    Makanan masakan;
+    printf("\nMasukan Nama Masakan: ");
+    scanf("%[^\n]", masakan.nama);
+    printf("Masukan Harga Jual: Rp. ");
+    scanf("%d", &masakan.harga);
+
+    do{
+      printf("Masukan Tanggal Produksi hari-bulan-tahun (00-00-00): ");
+      scanf(" %s", masakan.tglProduksi);
+      if(!validasiTgl(masakan.tglProduksi)) {
+        printf("Maaf, tanggal salah. Format yang diperbolehkan 00-00-00\n dimana hari-bulan-tahun\n");
+        printf("Silahkan ulangin penginputan tanggal produksi");
+      }
+    }while(!validasiTgl(masakan.tglProduksi));
+
+    Node *new = (Node* )malloc(sizeof(Node));
+    new->makanan = masakan;
+    new->prev = NULL;
+    new->next = NULL;
+
+    if(*head == NULL) {
+      *head = new;
+    }else {
+      Node *temp = *head;
+      while(temp->next) 
+        temp = temp->next;
+      temp->next = new;
+      temp->prev = temp;
+    }
+
+    printf("Masih ada data?[Y/T]: ");
+    scanf(" %c", &lanjut);
+  }while(lanjut == 'Y' || lanjut == 'y');
+}
+
 int main() {
   Node *head = NULL;
   int choice;
 
-  do {
+  do{
     menu();
     scanf("%d", &choice);
 
@@ -65,11 +119,10 @@ int main() {
       case 4:
         break;
       case 9:
-        printf("Terimakasih sudah menggunakan aplikasi keren ini! APT APT");
+        printf("Terimakasih telah menggunakan program keren ini!\n");
         break;
-      default:
-        printf("Maaf, pilihan salah. Hanya boleh 1, 2, 3, 4 atau 9\n Silahkan ulangi pilihan menu");
-        break;
+      default: 
+        printf("Maaf, pilihan salah. Hanya boleh 1,2,3,4 atau 9\nSilahkan ulangi pilihan mu\n");
     }
   }while(choice!=9);
 
